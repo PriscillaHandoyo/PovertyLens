@@ -30,6 +30,8 @@ def load_data():
         # Try different possible paths
         possible_paths = [
             'poverty_dataset_clean.csv',
+            '../datasets/poverty_dataset_clean.csv',  # This should match your notebook output
+            'datasets/poverty_dataset_clean.csv',
             '../poverty_dataset_clean.csv',
             'data/poverty_dataset_clean.csv',
             '../data/poverty_dataset_clean.csv'
@@ -55,10 +57,10 @@ def load_model():
     try:
         # Try different possible paths for model files
         model_paths = [
-            ('random_forest_model.pkl', 'feature_names.pkl'),
-            ('../random_forest_model.pkl', '../feature_names.pkl'),
+            ('../models/random_forest_model.pkl', '../models/feature_names.pkl'),  # This should match your notebook output
             ('models/random_forest_model.pkl', 'models/feature_names.pkl'),
-            ('../models/random_forest_model.pkl', '../models/feature_names.pkl')
+            ('random_forest_model.pkl', 'feature_names.pkl'),
+            ('../random_forest_model.pkl', '../feature_names.pkl')
         ]
         
         for model_path, features_path in model_paths:
