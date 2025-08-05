@@ -9,19 +9,71 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 
+# # Load the dataset
+# def load_data():
+#     data = pd.read_csv('poverty_dataset_clean.csv')
+#     return data
+
+# # Load the model 
+# def load_model():
+#     try:
+#         model = joblib.load('random_forest_model.pkl')
+#         feature_names = joblib.load('feature_names.pkl')
+#         return model, feature_names
+#     except FileNotFoundError:
+#         st.error("Model files not found. Please run the model training notebook first.")
+#         return None, None
+
 # Load the dataset
 def load_data():
-    data = pd.read_csv('poverty_dataset_clean.csv')
-    return data
+    try:
+        # Try different possible paths
+        possible_paths = [
+            'poverty_dataset_clean.csv',
+            '../poverty_dataset_clean.csv',
+            'data/poverty_dataset_clean.csv',
+            '../data/poverty_dataset_clean.csv'
+        ]
+        
+        for path in possible_paths:
+            try:
+                data = pd.read_csv(path)
+                return data
+            except FileNotFoundError:
+                continue
+        
+        # If none of the paths work, show error
+        st.error("Dataset file 'poverty_dataset_clean.csv' not found. Please ensure the file is in the correct directory.")
+        return None
+        
+    except Exception as e:
+        st.error(f"Error loading dataset: {str(e)}")
+        return None
 
 # Load the model 
 def load_model():
     try:
-        model = joblib.load('random_forest_model.pkl')
-        feature_names = joblib.load('feature_names.pkl')
-        return model, feature_names
-    except FileNotFoundError:
+        # Try different possible paths for model files
+        model_paths = [
+            ('random_forest_model.pkl', 'feature_names.pkl'),
+            ('../random_forest_model.pkl', '../feature_names.pkl'),
+            ('models/random_forest_model.pkl', 'models/feature_names.pkl'),
+            ('../models/random_forest_model.pkl', '../models/feature_names.pkl')
+        ]
+        
+        for model_path, features_path in model_paths:
+            try:
+                model = joblib.load(model_path)
+                feature_names = joblib.load(features_path)
+                return model, feature_names
+            except FileNotFoundError:
+                continue
+                
         st.error("Model files not found. Please run the model training notebook first.")
+        return None, None
+        
+    except Exception as e:
+        st.error(f"Error loading model: {str(e)}")
         return None, None
 
 # Predict poverty risk
