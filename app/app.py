@@ -67,10 +67,10 @@ def main():
         
         val = st.sidebar.slider(
             label=label,
-            min_value=float(data[col].min()),
+            min_value=0.0,
             max_value=float(data[col].max()),
             value=float(data[col].median()),
-            help=f"Range: {data[col].min():.1f} - {data[col].max():.1f}"
+            help=f"Range: 0.0 - {data[col].max():.1f}"
         )
         input_data[col] = val
     
@@ -87,11 +87,6 @@ def main():
                 st.error(f"🚨 **High Poverty Risk** (Probability: {proba:.2%})")
             else:
                 st.success(f"✅ **Low Poverty Risk** (Probability: {proba:.2%})")
-            
-            # Show input values
-            st.subheader("Input Values Used")
-            for feature, value in input_data.items():
-                st.write(f"**{feature.replace('_', ' ').title()}:** {value:.2f}")
 
         except Exception as e:
             st.error(f"Error making prediction: {str(e)}")
@@ -114,12 +109,32 @@ def main():
         st.pyplot(fig)
     except Exception as e:
         st.error(f"Error displaying feature importance: {str(e)}")
+    
+    # Input Summary
+    st.markdown("### Summary of Your Input")
+    for key, val in input_data.items():
+        st.markdown(f"- **{key.replace('_', ' ').title()}**: {val}")
 
-    # Dataset overview
-    st.subheader("Dataset Overview")
-    st.write(f"Dataset contains {len(data)} records from {data['Country Name'].nunique()} countries")
-    st.write("Sample data:")
-    st.dataframe(data.head())
+    # Smart Advice
+    st.markdown("### Smart Advice")
+
+    advice = []
+    if input_data["Literacy Rate"] < 70:
+        advice.append("**Improve education access**: Literacy rate is below 70%. Focus on primary and adult education initiatives.")
+    if input_data["Unemployment Rate"] > 15:
+        advice.append("**Tackle unemployment**: High unemployment can lead to systemic poverty. Explore job training and microfinance support.")
+    if input_data["GDP per Capita"] < 5000:
+        advice.append("**Boost economic activity**: Low GDP per capita indicates underdeveloped economy. Promote small business and investment.")
+    if input_data["Infant Mortality Rate"] > 50:
+        advice.append("**Invest in healthcare**: High infant mortality reflects poor health access. Improve clinics, maternity care, and sanitation.")
+    if input_data["Health Expenditure"] < 200:
+        advice.append("**Increase health investment**: Low spending on health may hinder long-term well-being.")
+
+    if advice:
+        for item in advice:
+            st.markdown(f"- {item}")
+    else:
+        st.success("✅ All indicators are in a healthy range! Keep up the positive development trajectory.")
 
 if __name__ == "__main__":
     main()
