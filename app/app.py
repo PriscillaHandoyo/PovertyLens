@@ -11,14 +11,14 @@ from sklearn.metrics import classification_report, confusion_matrix
 
 # Load the dataset
 def load_data():
-    data = pd.read_csv('../datasets/poverty_dataset_clean.csv')
+    data = pd.read_csv('poverty_dataset_clean.csv')
     return data
 
 # Load the model 
 def load_model():
     try:
-        model = joblib.load('../models/random_forest_model.pkl')
-        feature_names = joblib.load('../models/feature_names.pkl')
+        model = joblib.load('random_forest_model.pkl')
+        feature_names = joblib.load('feature_names.pkl')
         return model, feature_names
     except FileNotFoundError:
         st.error("Model files not found. Please run the model training notebook first.")
