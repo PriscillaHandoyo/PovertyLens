@@ -41,5 +41,4 @@ Built with **Python, Machine Learning**, and an interactive **Streamlit dashboar
 
 ## 📊 Live Dashboard (Demo)
 
-> 🔗 [Launch App on Streamlit Cloud](https://your-app-link.streamlit.app)  
-(*Replace with your actual Streamlit Cloud link after deployment*)
+> 🔗 [Launch App on Streamlit Cloud](https://poverty-lens-m4gtaruepjwd8ceaut537n.streamlit.app/)  
